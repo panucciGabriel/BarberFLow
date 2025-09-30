@@ -1,0 +1,25 @@
+POST http://localhost:8080/agendamentos
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "barbeiroId": 1,
+  "servicoId": 1,
+  "dataHora": "2025-10-29T10:00:00"
+}
+
+POST http://localhost:8080/agendamentos
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "barbeiroId": 1,
+  "servicoId": 1,
+  "dataHora": "2025-10-29T10:15:00"
+}
+
+### Separador de Requisição
+###
+
+### Listar os agendamentos do dia 2025-10-29
+GET http://localhost:8080/agendamentos?data=2025-10-29
