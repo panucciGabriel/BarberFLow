@@ -1,5 +1,6 @@
 package br.com.barberflow.api.Service; // Pacote renomeado para 'service' (minúsculo)
 
+import br.com.barberflow.api.Service.exceptions.HorarioConflitanteException;
 import br.com.barberflow.api.model.Agendamento;
 import br.com.barberflow.api.model.Barbeiro; // Padronizado
 import br.com.barberflow.api.model.Cliente;  // Padronizado
@@ -52,7 +53,7 @@ public class AgendamentoService {
                 .findByBarbeiroAndDataHoraBetween(barbeiro, dataHora, dataHoraFim);
 
         if (!conflitos.isEmpty()) {
-            throw  new RuntimeException("Horário indisponível. Já existe um agendamento para este barbeiro nesse horário.");
+            throw  new HorarioConflitanteException("Horário indisponível. Já existe um agendamento para este barbeiro nesse horário.");
         }
 
         Agendamento novoAgendamento = new Agendamento();
