@@ -1,6 +1,7 @@
 package br.com.barberflow.api.Service; // Pacote renomeado para 'service' (minúsculo)
 
 import br.com.barberflow.api.Service.exceptions.HorarioConflitanteException;
+import br.com.barberflow.api.Service.exceptions.ResourceNotFoundException;
 import br.com.barberflow.api.model.Agendamento;
 import br.com.barberflow.api.model.Barbeiro; // Padronizado
 import br.com.barberflow.api.model.Cliente;  // Padronizado
@@ -9,6 +10,7 @@ import br.com.barberflow.api.repository.AgendamentoRepository;
 import br.com.barberflow.api.repository.BarbeiroRepository; // Padronizado
 import br.com.barberflow.api.repository.ClienteRepository;  // Padronizado
 import br.com.barberflow.api.repository.ServicoRepository;  // Padronizado
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -80,5 +82,16 @@ public class AgendamentoService {
 
         return agendamentoRepository.findAllByDataHoraBetween(inicioDoDia, fimDoDIa);
     }
+
+    public void cancelarAgendamento(Long id) {
+        Agendamento agendamento = agendamentoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Agendamento não encontrado para o id: " + id));
+
+        agendamento.setStatus("CANCELADO");
+
+        agendamentoRepository.save(agendamento);
+
+    }
+
 
 }

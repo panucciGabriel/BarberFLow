@@ -1,6 +1,8 @@
 package br.com.barberflow.api.controller.exceptions;
 
 import br.com.barberflow.api.Service.exceptions.HorarioConflitanteException;
+import br.com.barberflow.api.Service.exceptions.ResourceNotFoundException;
+import com.twilio.http.Response;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -30,4 +32,20 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<StandardError> handlerResourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
+
+        String error = "Recurso não encontrado";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        StandardError err = new StandardError(
+                Instant.now(),
+                status.value(),
+                error,
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(err);
+    }
 }
